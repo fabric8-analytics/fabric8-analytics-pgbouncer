@@ -11,18 +11,25 @@ node('docker') {
     stage('Build') {
         dockerCleanup()
         docker.build(image.id, '--pull --no-cache .')
+        sh "docker tag ${image.id} docker-registry.usersys.redhat.com/${image.id}"
     }
 
-    stage('Integraion Tests') {
+    stage('Integration Tests') {
         sh "docker tag ${image.id} docker-registry.usersys.redhat.com/${image.id}"
         ws {
-            // skipped for the first run as we need to "bootstrap" the docker images first
-            //git url: 'https://github.com/baytemp/common.git', branch: 'master', credentialsId: 'baytemp-ci-gh'
-            //dir('integration-tests') {
-            //    timeout(30) {
-            //        sh './runtest.sh'
-            //    }
-            //}
+            docker.withRegistry('https://docker-registry.usersys.redhat.com/') {
+                docker.image('bayesian/bayesian-api').pull()
+                docker.image('bayesian/cucos-worker').pull()
+                docker.image('bayesian/coreapi-downstream-data-import').pull()
+                docker.image('bayesian/coreapi-jobs').pull()
+            }
+
+            git url: 'https://github.com/baytemp/common.git', branch: 'master', credentialsId: 'baytemp-ci-gh'
+            dir('integration-tests') {
+                timeout(30) {
+                    sh './runtest.sh'
+                }
+            }
         }
     }
 
@@ -34,25 +41,25 @@ node('docker') {
                 image.push(commitId)
             }
             docker.withRegistry('https://registry.devshift.net/') {
-                //image.push('latest')
-                //image.push(commitId)
+                image.push('latest')
+                image.push(commitId)
             }
         }
     }
 }
 
-//if (env.BRANCH_NAME == 'master') {
-//    node('oc') {
-//        stage('Deploy - dev') {
-//            sh 'oc --context=dev deploy bayesian-worker --latest'
-//        }
-//
-//        stage('Deploy - rh-idev') {
-//            sh 'oc --context=dev deploy bayesian-worker --latest'
-//        }
-//
-//        stage('Deploy - dsaas') {
-//            sh 'oc --context=dsaas deploy bayesian-worker --latest'
-//        }
-//    }
-//}
+if (env.BRANCH_NAME == 'master') {
+    node('oc') {
+        stage('Deploy - dev') {
+            sh 'oc --context=dev deploy bayesian-pgbouncer --latest'
+        }
+
+        stage('Deploy - rh-idev') {
+            sh 'oc --context=rh-idev deploy bayesian-pgbouncer --latest'
+        }
+
+        stage('Deploy - dsaas') {
+            sh 'oc --context=dsaas deploy bayesian-pgbouncer --latest'
+        }
+    }
+}
