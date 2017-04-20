@@ -3,9 +3,11 @@
 node('docker') {
 
     def image = docker.image('bayesian/coreapi-pgbouncer')
+    def commitId
 
     stage('Checkout') {
         checkout scm
+        commitId = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
     }
 
     stage('Build') {
@@ -35,7 +37,6 @@ node('docker') {
 
     if (env.BRANCH_NAME == 'master') {
         stage('Push Images') {
-            def commitId = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             docker.withRegistry('https://docker-registry.usersys.redhat.com/') {
                 image.push('latest')
                 image.push(commitId)
@@ -45,17 +46,27 @@ node('docker') {
                 image.push(commitId)
             }
         }
+
+        stage('Prepare Template') {
+            dir('openshift') {
+                sh "sed -i \"/image-tag\$/ s|latest|${commitId}|\" template.yaml"
+                stash name: 'template', includes: 'template.yaml'
+                archiveArtifacts artifacts: 'template.yaml'
+            }
+        }
     }
 }
 
 if (env.BRANCH_NAME == 'master') {
     node('oc') {
         stage('Deploy - dev') {
-            sh 'oc --context=dev deploy bayesian-pgbouncer --latest'
+            unstash 'template'
+            sh 'oc --context=dev process -f template.yaml | oc --context=dev apply -f -'
         }
 
         stage('Deploy - rh-idev') {
-            sh 'oc --context=rh-idev deploy bayesian-pgbouncer --latest'
+            unstash 'template'
+            sh 'oc --context=rh-idev process -f template.yaml | oc --context=rh-idev apply -f -'
         }
     }
 }
