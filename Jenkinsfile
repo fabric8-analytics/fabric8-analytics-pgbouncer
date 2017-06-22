@@ -17,13 +17,12 @@ node('docker') {
     stage('Build') {
         dockerCleanup()
         docker.build(image.id, '--pull --no-cache .')
-        sh "docker tag ${image.id} docker-registry.usersys.redhat.com/${image.id}"
+        sh "docker tag ${image.id} registry.devshift.net/${image.id}"
     }
 
     stage('Integration Tests') {
-        sh "docker tag ${image.id} docker-registry.usersys.redhat.com/${image.id}"
         ws {
-            docker.withRegistry('https://docker-registry.usersys.redhat.com/') {
+            docker.withRegistry('https://registry.devshift.net/') {
                 docker.image('bayesian/bayesian-api').pull()
                 docker.image('bayesian/cucos-worker').pull()
                 docker.image('bayesian/coreapi-downstream-data-import').pull()
@@ -41,10 +40,6 @@ node('docker') {
 
     if (env.BRANCH_NAME == 'master') {
         stage('Push Images') {
-            docker.withRegistry('https://docker-registry.usersys.redhat.com/') {
-                image.push('latest')
-                image.push(commitId)
-            }
             docker.withRegistry('https://registry.devshift.net/') {
                 image.push('latest')
                 image.push(commitId)
@@ -60,9 +55,9 @@ if (env.BRANCH_NAME == 'master') {
             sh "oc --context=dev process -v IMAGE_TAG=${commitId} -f template.yaml | oc --context=dev apply -f -"
         }
 
-        //stage('Deploy - rh-idev') {
-        //    unstash 'template'
-        //    sh 'oc --context=rh-idev process -v IMAGE_TAG=${commitId} -f template.yaml | oc --context=rh-idev apply -f -'
-        //}
+        stage('Deploy - rh-idev') {
+            unstash 'template'
+            sh "oc --context=rh-idev process -v IMAGE_TAG=${commitId} -f template.yaml | oc --context=rh-idev apply -f -"
+        }
     }
 }
