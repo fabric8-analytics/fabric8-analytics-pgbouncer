@@ -29,7 +29,7 @@ node('docker') {
                 docker.image('bayesian/coreapi-jobs').pull()
             }
 
-            git url: 'https://github.com/fabric8-analytics/fabric8-analytics-common.git', branch: 'master'
+            git url: 'https://github.com/fabric8-analytics/fabric8-analytics-common.git', branch: 'master', poll: false
             dir('integration-tests') {
                 timeout(30) {
                     sh './runtest.sh'
