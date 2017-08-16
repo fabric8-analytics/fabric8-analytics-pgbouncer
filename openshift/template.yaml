@@ -62,6 +62,11 @@ objects:
             initialDelaySeconds: 10
             periodSeconds: 60
             timeoutSeconds: 2
+          readinessProbe:
+            exec:
+              command: ["health-check-probe.sh"]
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
           ports:
           - containerPort: 5432
             protocol: TCP
