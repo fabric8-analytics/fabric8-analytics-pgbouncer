@@ -15,8 +15,16 @@ node('docker') {
     }
 
     stage('Build') {
-        dockerCleanup()
         docker.build(image.id, '--pull --no-cache .')
+    }
+
+    stage('Test') {
+        dockerCleanup()
+        dir('tests') {
+            timeout(5) {
+                sh './run_integration_tests.sh'
+            }
+        }
     }
 
     if (env.BRANCH_NAME == 'master') {
