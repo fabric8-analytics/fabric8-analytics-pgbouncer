@@ -1,4 +1,8 @@
 #!/bin/bash -ex
 
-./tests/run_integration_tests.sh
+. cico_setup.sh
+
+build_image
+
+IMAGE_NAME=$(make get-image-name) ./tests/run_integration_tests.sh
 
