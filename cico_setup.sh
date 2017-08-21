@@ -2,7 +2,7 @@
 
 prep() {
     yum -y update
-    yum -y install docker
+    yum -y install docker git
     systemctl start docker
 }
 
