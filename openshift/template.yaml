@@ -59,14 +59,14 @@ objects:
           livenessProbe:
             exec:
               command: ["health-check-probe.sh"]
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
             periodSeconds: 60
             timeoutSeconds: 5
           readinessProbe:
             exec:
               command: ["health-check-probe.sh"]
             initialDelaySeconds: 10
-            timeoutSeconds: 2
+            timeoutSeconds: 5
           ports:
           - containerPort: 5432
             protocol: TCP
