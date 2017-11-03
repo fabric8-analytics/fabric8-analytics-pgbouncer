@@ -4,6 +4,7 @@
 def commitId
 node('docker') {
 
+
     def image = docker.image('bayesian/coreapi-pgbouncer')
 
     stage('Checkout') {
