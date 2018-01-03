@@ -2,7 +2,7 @@
 
 # Check that we can connect to Postgres through PgBouncer container.
 
-pgbouncer_image=${IMAGE_NAME:-registry.devshift.net/bayesian/coreapi-pgbouncer:latest}
+pgbouncer_image=${IMAGE_NAME:-registry.devshift.net/fabric8-analytics/coreapi-pgbouncer:latest}
 postgres_image='registry.centos.org/sclo/postgresql-94-centos7:latest'
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 postgres_env="${here}/postgres.env"
