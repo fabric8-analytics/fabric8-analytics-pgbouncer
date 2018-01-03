@@ -107,7 +107,7 @@ parameters:
   displayName: Docker image
   required: true
   name: DOCKER_IMAGE 
-  value: "bayesian/coreapi-pgbouncer"
+  value: "fabric8-analytics/coreapi-pgbouncer"
 
 - description: Image tag
   displayName: Image tag
