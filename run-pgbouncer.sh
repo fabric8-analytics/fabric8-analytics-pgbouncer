@@ -27,7 +27,11 @@ auth_file = ${USERLIST_TXT}
 auth_type = md5
 admin_users = ${POSTGRESQL_USER}
 max_client_conn = 10000
-default_pool_size = 20
+if [ -n "$DYNAMODB_CLIENT_CREDENTIALS_CLASS_NAME" ]; then
+    default_pool_size = ${POSTGRESQL_POOL_SIZE}
+else
+    default_pool_size = 20
+fi
 # pgweb refuses to work with extra_float_digits
 ignore_startup_parameters = extra_float_digits
 EOF
