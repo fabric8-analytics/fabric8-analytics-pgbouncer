@@ -2,7 +2,7 @@ FROM registry.centos.org/centos/centos:7
 
 MAINTAINER Slavek Kabrda <slavek@redhat.com>
 
-RUN yum install -y https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-3.noarch.rpm &&\
+RUN yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm &&\
 		yum -y install pgbouncer postgresql &&\
 		yum clean all
 
