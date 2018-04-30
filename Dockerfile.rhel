@@ -1,0 +1,7 @@
+FROM prod.registry.devshift.net/osio-prod/base/fabric8-analytics-pgbouncer:latest
+
+COPY run-pgbouncer.sh health-check-probe.sh /usr/bin/
+
+EXPOSE 5432
+
+ENTRYPOINT /usr/bin/run-pgbouncer.sh
