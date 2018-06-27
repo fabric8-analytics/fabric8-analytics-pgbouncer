@@ -30,6 +30,10 @@ max_client_conn = 10000
 default_pool_size = 20
 # pgweb refuses to work with extra_float_digits
 ignore_startup_parameters = extra_float_digits
+log_connections = 0
+log_disconnections = 0
+log_pooler_errors = 1
+stats_period = 60
 EOF
 
 pg_user=$(id -u)
