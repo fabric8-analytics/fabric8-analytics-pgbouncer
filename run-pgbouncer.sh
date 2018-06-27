@@ -19,6 +19,7 @@ ${POSTGRESQL_DATABASE} = host=${POSTGRESQL_HOST} port=${POSTGRESQL_PORT}
 ${POSTGRESQL_INITIAL_DATABASE} = host=${POSTGRESQL_HOST} port=${POSTGRESQL_PORT}
 
 [pgbouncer]
+# https://pgbouncer.github.io/config.html
 pool_mode = transaction
 listen_addr = *
 listen_port = 5432
@@ -27,7 +28,7 @@ auth_file = ${USERLIST_TXT}
 auth_type = md5
 admin_users = ${POSTGRESQL_USER}
 max_client_conn = 10000
-default_pool_size = 20
+default_pool_size = 100
 # pgweb refuses to work with extra_float_digits
 ignore_startup_parameters = extra_float_digits
 log_connections = 0
