@@ -1,4 +1,4 @@
-FROM prod.registry.devshift.net/osio-prod/base/fabric8-analytics-pgbouncer:latest
+FROM quay.io/openshiftio/rhel-base-fabric8-analytics-pgbouncer:latest
 
 COPY run-pgbouncer.sh health-check-probe.sh /usr/bin/
 
