@@ -3,10 +3,10 @@ DEFAULT_TAG := latest
 
 ifeq ($(TARGET),rhel)
   DOCKERFILE := Dockerfile.rhel
-  REPOSITORY := rhel-bayesian-coreapi-pgbouncer
+  REPOSITORY := openshiftio/rhel-bayesian-coreapi-pgbouncer
 else
   DOCKERFILE := Dockerfile
-  REPOSITORY := bayesian-coreapi-pgbouncer
+  REPOSITORY := openshiftio/bayesian-coreapi-pgbouncer
 endif
 
 .PHONY: all docker-build fast-docker-build test get-image-name get-image-repository
