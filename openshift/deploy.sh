@@ -12,7 +12,7 @@ function oc_process_apply() {
 
 here=`dirname $0`
 template="${here}/template.yaml"
-pgweb_template="${here}/template.yaml"
+pgweb_template="${here}/pgweb-template.yaml"
 
 oc_process_apply "$template"
 oc_process_apply "$pgweb_template"

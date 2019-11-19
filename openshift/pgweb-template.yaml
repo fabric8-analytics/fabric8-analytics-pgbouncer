@@ -24,40 +24,6 @@ objects:
       spec:
         containers:
         - env:
-          - name: POSTGRESQL_DATABASE
-            valueFrom:
-              secretKeyRef:
-                name: coreapi-postgres
-                key: database
-          - name: POSTGRESQL_INITIAL_DATABASE
-            valueFrom:
-              secretKeyRef:
-                name: coreapi-postgres
-                key: initial-database
-          - name: POSTGRESQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: coreapi-postgres
-                key: password
-          - name: POSTGRESQL_USER
-            valueFrom:
-              secretKeyRef:
-                name: coreapi-postgres
-                key: username
-          - name: POSTGRES_SERVICE_HOST
-            valueFrom:
-              secretKeyRef:
-                name: coreapi-postgres
-                key: host
-          - name: POSTGRES_SERVICE_PORT
-            valueFrom:
-              secretKeyRef:
-                name: coreapi-postgres
-                key: port
-          - name: PGBOUNCER_SERVICE_HOST
-            value: bayesian-pgbouncer
-          command: ["/usr/bin/pgweb"]
-          args: ["--url", "postgres://$(POSTGRESQL_USER):$(POSTGRESQL_PASSWORD)@$(PGBOUNCER_SERVICE_HOST)/$(POSTGRESQL_DATABASE)?sslmode=disable", "--bind=0.0.0.0", "--listen=8081"]
           image: "${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${IMAGE_TAG}"
           name: bayesian-pgweb
           livenessProbe:
