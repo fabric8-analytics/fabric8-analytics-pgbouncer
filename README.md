@@ -6,4 +6,4 @@ It also contains a openshift template for [PgWeb](https://github.com/sosedoff/pg
 
 ## Contributing
 
-See our [contributing guidelines](https://github.com/fabric8-analytics/common/blob/master/CONTRIBUTING.md) for more info.
+- See our [contributing guidelines](https://github.com/fabric8-analytics/common/blob/master/CONTRIBUTING.md) for more info.
