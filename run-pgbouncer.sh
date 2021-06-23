@@ -2,6 +2,7 @@
 
 export POSTGRESQL_HOST=${POSTGRES_SERVICE_HOST:-coreapi-postgres}
 export POSTGRESQL_PORT=${POSTGRES_SERVICE_PORT:-5432}
+export PGBOUNCER_DEFAULT_POOL_SIZE=${PGBOUNCER_DEFAULT_POOL_SIZE:-100}
 
 PGBOUNCER_DIR=/tmp/pgbouncer
 USERLIST_TXT=${PGBOUNCER_DIR}/userlist.txt
@@ -28,7 +29,7 @@ auth_file = ${USERLIST_TXT}
 auth_type = md5
 admin_users = ${POSTGRESQL_USER}
 max_client_conn = 10000
-default_pool_size = 100
+default_pool_size = ${PGBOUNCER_DEFAULT_POOL_SIZE}
 # pgweb refuses to work with extra_float_digits
 ignore_startup_parameters = extra_float_digits
 log_connections = 0
