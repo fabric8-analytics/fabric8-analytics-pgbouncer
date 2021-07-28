@@ -114,3 +114,9 @@ parameters:
   required: true
   name: IMAGE_TAG
   value: "latest"  # image-tag
+
+- description: Number of rds connections
+  displayName: default pool size
+  required: true
+  name: PGBOUNCER_DEFAULT_POOL_SIZE
+  value: 500
