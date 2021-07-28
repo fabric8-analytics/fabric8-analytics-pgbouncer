@@ -119,4 +119,4 @@ parameters:
   displayName: default pool size
   required: true
   name: PGBOUNCER_DEFAULT_POOL_SIZE
-  value: 500
+  value: "500"
