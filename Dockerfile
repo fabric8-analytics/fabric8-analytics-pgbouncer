@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8:latest
+FROM registry.redhat.io/ubi8/ubi:latest
 
 MAINTAINER Slavek Kabrda <slavek@redhat.com>
 
