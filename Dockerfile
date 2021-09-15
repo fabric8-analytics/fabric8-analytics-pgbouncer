@@ -2,10 +2,7 @@ FROM registry.centos.org/centos/centos:8
 
 MAINTAINER Slavek Kabrda <slavek@redhat.com>
 
-# install dependencies required by pgbouncer
-RUN yum install -y http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/c-ares-1.13.0-5.el8.x86_64.rpm 
-
-RUN	yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-ppc64le/pgdg-redhat-repo-latest.noarch.rpm &&\
+RUN yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm &&\
 		yum --disablerepo=pgdg94 -y install pgbouncer postgresql &&\
 		yum clean all
 
