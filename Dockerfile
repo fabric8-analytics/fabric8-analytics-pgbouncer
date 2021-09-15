@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi:latest
+FROM registry.centos.org/centos/centos:8
 
 MAINTAINER Slavek Kabrda <slavek@redhat.com>
 
