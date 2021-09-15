@@ -31,7 +31,7 @@ pgbouncer_container_name=$(docker run -d -v ${check_script}:/check.sh:ro,Z --env
 
 echo "PgBouncer container name is ${pgbouncer_container_name}."
 
-docker exec -i ${pgbouncer_container_name} /check.sh
+docker exec -t ${pgbouncer_container_name} /check.sh
 
 echo "Test Passed."
 
