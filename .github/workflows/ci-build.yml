@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run Tests
-        run: bash tests/runtests.sh
+        run: bash tests/run_integration_tests.sh
   Build-docker-image:
     runs-on: ubuntu-latest
     steps:
