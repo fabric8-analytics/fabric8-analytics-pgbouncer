@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ migrate-gh-actions ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
