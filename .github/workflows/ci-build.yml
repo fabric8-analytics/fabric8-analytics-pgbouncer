@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  Run-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Tests
+        run: bash tests/run_integration_tests.sh
+  Openshift-yaml-validate:
+    strategy:
+      matrix:
+        openshift_template_files: [template.yaml, pgweb-template.yaml]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install oc
+        uses: redhat-actions/oc-installer@v1
+        with:
+          version: '4.6'
+      - name: Run oc process
+        run: oc process --local -f openshift/${{ matrix.openshift_template_files }} -o yaml > blueprint.yaml
+      - name: validate openshift yaml
+        uses: instrumenta/kubeval-action@master
+        with:
+          files: blueprint.yaml
+  Build-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Docker Build
+      run: docker build --no-cache -t tests-image -f Dockerfile .
